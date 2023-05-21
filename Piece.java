@@ -15,60 +15,6 @@ public class Piece {
         this.hashCode = calculateHashCode(shape);
     }
 
-    private void initializeTopLeftPosition() {
-        for (int i = 0; i < h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                if (shape[i][j]) {
-                    this.x = i;
-                    this.y = j;
-                    return;
-                }
-            }
-        }
-    }
-
-    public void print() {
-        for (boolean[] row: shape) {
-            for (boolean cell: row) {
-                System.out.print(cell ? c : ' ');
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public Piece flip() {
-        boolean[][] flipShape = new boolean[h][w];
-        for (int i = 0; i < h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                flipShape[i][w - 1 - j] = shape[i][j];
-            }
-        }
-        return new Piece(c, flipShape);
-    }
-
-    public Piece rotate90Degrees() {
-        boolean[][] rotatedShape = new boolean[w][h];
-        for (int i = 0; i < h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                rotatedShape[j][h - 1 - i] = shape[i][j];
-            }
-        }
-
-        return new Piece(c, rotatedShape);
-    }
-
-    public int calculateHashCode(boolean[][] shape) {
-        StringBuffer sb = new StringBuffer();
-        for (boolean[] row: shape) {
-            for (boolean cell: row) {
-                if (cell) sb.append('T');
-                else sb.append('F');
-            }
-        }
-        return sb.toString().hashCode();
-    }
-
     @Override
     public int hashCode() {
         return this.hashCode;
@@ -83,6 +29,60 @@ public class Piece {
         if (getClass() != obj.getClass())
             return false;
         return this.hashCode() == ((Piece) obj).hashCode();
+    }
+
+    public void print() {
+        for (boolean[] row: shape) {
+            for (boolean cell: row) {
+                System.out.print(cell ? c : ' ');
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private void initializeTopLeftPosition() {
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                if (shape[i][j]) {
+                    this.x = i;
+                    this.y = j;
+                    return;
+                }
+            }
+        }
+    }
+
+    private Piece flip() {
+        boolean[][] flipShape = new boolean[h][w];
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                flipShape[i][w - 1 - j] = shape[i][j];
+            }
+        }
+        return new Piece(c, flipShape);
+    }
+
+    private Piece rotate90Degrees() {
+        boolean[][] rotatedShape = new boolean[w][h];
+        for (int i = 0; i < h; ++i) {
+            for (int j = 0; j < w; ++j) {
+                rotatedShape[j][h - 1 - i] = shape[i][j];
+            }
+        }
+
+        return new Piece(c, rotatedShape);
+    }
+
+    private int calculateHashCode(boolean[][] shape) {
+        StringBuffer sb = new StringBuffer();
+        for (boolean[] row: shape) {
+            for (boolean cell: row) {
+                if (cell) sb.append('T');
+                else sb.append('F');
+            }
+        }
+        return sb.toString().hashCode();
     }
 
     public static List<Piece> getRotatedPiece(Piece piece, boolean flip) {
